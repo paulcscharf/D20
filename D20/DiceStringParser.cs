@@ -18,9 +18,10 @@ namespace D20
 		private CharacterType currentType = CharacterType.Unknown;
 
 		private char current => this.input[this.characterIndex];
-		private bool endOfString => this.characterIndex >= this.input.Length;
+	    private int currentAsDigit => this.current - '0';
+	    private bool endOfString => this.characterIndex >= this.input.Length;
 
-		private DiceStringParser(string input)
+	    private DiceStringParser(string input)
 		{
 			if (string.IsNullOrWhiteSpace(input))
                 throw new ArgumentException("Must be non-empty string.", nameof(input));
@@ -111,13 +112,12 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 
 		private int readInt()
 		{
-			var acc = int.Parse(this.current.ToString());
-			int d;
-			while (this.moveNext() && int.TryParse(this.current.ToString(), out d))
+		    int sum = this.currentAsDigit;
+			while (this.moveNext() && this.currentType == CharacterType.Digit)
 			{
-				acc = acc * 10 + d;
+				sum = sum * 10 + this.currentAsDigit;
 			}
-			return acc;
+			return sum;
 		}
 
 	}
