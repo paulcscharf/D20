@@ -12,7 +12,7 @@ Just a small C# library for rolling dice.
 - Use the present tense ("Add feature" not "Added feature")
 - Use the imperative mood ("Move file to..." not "Moves file to...")
 - Limit the first line to 72 characters or less
-- Reference issues and pull requests liberally
+- Do not reference issues/pull requests in commit messages
 - Consider starting the commit message with an applicable emoji. For example:
     - :bug: `:bug:` - Bug fixes
     - :fire: `:fire:` - Removing code
