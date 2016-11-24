@@ -8,7 +8,8 @@ namespace D20
 		{
 			Unknown,
 			DiceSymbol,
-			Digit
+			Digit,
+		    EndOfString,
 		}
 
 		public static IRollable Parse(string dice) => new DiceStringParser(dice).Parse();
@@ -61,6 +62,7 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 			this.characterIndex++;
 			if (this.endOfString)
 			{
+			    this.currentType = CharacterType.EndOfString;
 				return false;
 			}
             this.currentType = typeOfChar(this.current);
@@ -112,7 +114,7 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 
 		private int readInt()
 		{
-		    int sum = this.currentAsDigit;
+		    var sum = this.currentAsDigit;
 			while (this.moveNext() && this.currentType == CharacterType.Digit)
 			{
 				sum = sum * 10 + this.currentAsDigit;
