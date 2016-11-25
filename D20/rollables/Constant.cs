@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace D20
 {
-    internal class Constant : IRollable
+    internal sealed class Constant : IRollable
 	{
 		private readonly int value;
 

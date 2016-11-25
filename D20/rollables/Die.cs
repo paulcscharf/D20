@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace D20
 {
-    internal class Die : IRollable
+    internal sealed class Die : IRollable
 	{
 		private static readonly Random random = new Random();
 
