@@ -1,7 +1,7 @@
 
 namespace D20
 {
-    internal sealed class Product : BinaryOperator
+    public sealed class Product : BinaryOperator
 	{
 		public Product(IRollable left, IRollable right)
 			: base (left, right) { }

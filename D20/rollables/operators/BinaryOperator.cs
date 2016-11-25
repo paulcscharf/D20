@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace D20
 {
-    internal abstract class BinaryOperator : IRollable
+    public abstract class BinaryOperator : IRollable
 	{
 		protected abstract int Apply(int left, int right);
 		protected abstract double Apply(double left, double right);

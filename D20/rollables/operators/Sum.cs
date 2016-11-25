@@ -1,7 +1,7 @@
 
 namespace D20
 {
-    internal sealed class Sum : BinaryOperator
+    public sealed class Sum : BinaryOperator
 	{
 		public Sum(IRollable left, IRollable right)
 			: base (left, right) { }

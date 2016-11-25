@@ -1,7 +1,7 @@
 
 namespace D20
 {
-    internal sealed class Difference : BinaryOperator
+    public sealed class Difference : BinaryOperator
 	{
 		public Difference(IRollable left, IRollable right)
 			: base (left, right) { }

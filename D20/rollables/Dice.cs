@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace D20
 {
-    internal sealed class Dice : IRollable
+    public sealed class Dice : IRollable
 	{
 		private static readonly Random random = new Random();
 
