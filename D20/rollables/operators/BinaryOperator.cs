@@ -24,7 +24,7 @@ namespace D20
 
 		public override IEnumerable<int> PossibleValues =>
 			this.Left.PossibleValues
-				.Join(this.Right.PossibleValues, (l, r) => this.Apply(l, r))
+				.Join(this.Right.PossibleValues, this.Apply)
 				.Distinct()
 				.OrderBy(x => x);
 
