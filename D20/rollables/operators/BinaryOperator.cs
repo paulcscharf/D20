@@ -3,16 +3,16 @@ using System.Linq;
 
 namespace D20
 {
-    public abstract class BinaryOperator : IRollable
+    public abstract class BinaryOperator : Rollable
 	{
 		protected abstract int Apply(int left, int right);
 		protected abstract double Apply(double left, double right);
 		protected abstract string Symbol { get; }
 
-		protected IRollable Left { get; }
-		protected IRollable Right { get; }
+		protected Rollable Left { get; }
+		protected Rollable Right { get; }
 
-		protected BinaryOperator(IRollable left, IRollable right)
+		protected BinaryOperator(Rollable left, Rollable right)
 		{
 			this.Left = left;
 			this.Right = right;

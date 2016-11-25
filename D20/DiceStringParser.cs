@@ -12,7 +12,7 @@ namespace D20
 		    EndOfString,
 		}
 
-		public static IRollable Parse(string dice) => new DiceStringParser(dice).Parse();
+		public static Rollable Parse(string dice) => new DiceStringParser(dice).Parse();
 		
 		private readonly string input;
 		private int characterIndex = -1;
@@ -29,7 +29,7 @@ namespace D20
 			this.input = input.Trim().ToLower();
 		}
 
-		public IRollable Parse()
+		public Rollable Parse()
 		{
 			try
 			{
@@ -78,7 +78,7 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 			return CharacterType.Unknown;
 		}
 
-		private IRollable readRollable()
+		private Rollable readRollable()
 		{
 			switch (this.currentType)
 			{
@@ -91,7 +91,7 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 			}
 		}
 
-		private IRollable readDiceOrConstant()
+		private Rollable readDiceOrConstant()
 		{
 			var c = this.readInt();
 			if (this.endOfString || this.currentType != CharacterType.DiceSymbol)
@@ -106,7 +106,7 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 			return new Dice(c, d);
 		}
 
-		private IRollable readDie()
+		private Rollable readDie()
 		{
 			this.moveNext();
 			return new Die(this.readInt());

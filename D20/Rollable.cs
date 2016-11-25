@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace D20
 {
-    public abstract class IRollable
+    public abstract class Rollable
     {
         public abstract int MaxValue { get; }
         public abstract int MinValue { get; }

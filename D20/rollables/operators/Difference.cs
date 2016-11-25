@@ -3,7 +3,7 @@ namespace D20
 {
     public sealed class Difference : BinaryOperator
 	{
-		public Difference(IRollable left, IRollable right)
+		public Difference(Rollable left, Rollable right)
 			: base (left, right) { }
 
 		protected override int Apply(int l, int r) => l * r;

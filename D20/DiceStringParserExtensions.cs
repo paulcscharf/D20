@@ -3,7 +3,7 @@ namespace D20
 {
 	public static class DiceStringParserExtensions
 	{
-		public static IRollable Rollable(this string dice)
+		public static Rollable Rollable(this string dice)
 		{
 			return DiceStringParser.Parse(dice);
 		}
