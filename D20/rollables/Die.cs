@@ -23,13 +23,13 @@ namespace D20
 			this.value = value;    
 		}
 
-        public int MinValue => 1;
-        public int MaxValue => this.value;
-		public double Average => (this.value + 1) * 0.5;
-		public IEnumerable<int> PossibleValues => Enumerable.Range(1, this.value);
-		public IEnumerable<CountedValue> CountedValues => this.PossibleValues.Select(CountedValue.Single);
+        public override int MinValue => 1;
+        public override int MaxValue => this.value;
+		public override double Average => (this.value + 1) * 0.5;
+		public override IEnumerable<int> PossibleValues => Enumerable.Range(1, this.value);
+		public override IEnumerable<CountedValue> CountedValues => this.PossibleValues.Select(CountedValue.Single);
 
-		public int Roll() => 1 + Die.random.Next(this.value);
+		public override int Roll() => 1 + Die.random.Next(this.value);
 
         public override string ToString() => $"d{this.value}";
 	}

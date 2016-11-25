@@ -25,11 +25,11 @@ namespace D20
 			this.value = value;
 		}
 
-		public int MinValue => this.count;
-		public int MaxValue => this.count * this.value;
-		public double Average => this.count * (this.value + 1) * 0.5;
-		public IEnumerable<int> PossibleValues => Enumerable.Range(this.MinValue, this.MaxValue - this.MinValue + 1);
-		public IEnumerable<CountedValue> CountedValues
+		public override int MinValue => this.count;
+		public override int MaxValue => this.count * this.value;
+		public override double Average => this.count * (this.value + 1) * 0.5;
+		public override IEnumerable<int> PossibleValues => Enumerable.Range(this.MinValue, this.MaxValue - this.MinValue + 1);
+		public override IEnumerable<CountedValue> CountedValues
 		{
 			get
 			{
@@ -45,7 +45,7 @@ namespace D20
 			}
 		}
 
-        public int Roll() =>
+        public override int Roll() =>
             this.count + this.count.Times(() => Dice.random.Next(this.value)).Sum();
 
 		public override string ToString() => $"{this.count}d{this.value}";
