@@ -3,6 +3,8 @@ namespace D20
 {
     public sealed class Sum : BinaryOperator
 	{
+	    public static Sum Of(Rollable left, Rollable right) => new Sum(left, right);
+
 		public Sum(Rollable left, Rollable right)
 			: base (left, right) { }
 
