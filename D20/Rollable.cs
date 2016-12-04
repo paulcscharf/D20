@@ -22,5 +22,7 @@ namespace D20
         public static Rollable operator *(Rollable left, Rollable right) => Product.Of(left, right);
 
         public static implicit operator Rollable(int constant) => new Constant(constant);
+
+        public abstract override string ToString();
     }
 }
