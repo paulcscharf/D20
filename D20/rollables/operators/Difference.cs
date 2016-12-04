@@ -11,6 +11,7 @@ namespace D20
 		protected override int Apply(int l, int r) => l - r;
 		protected override double Apply(double l, double r)	=> l - r;
 		protected override string Symbol => "-";
+	    protected override Precedence OperatorPrecedence => Precedence.Sum;
 
 		public override int MinValue => this.Left.MinValue - this.Right.MaxValue;
 		public override int MaxValue => this.Left.MaxValue - this.Right.MinValue;

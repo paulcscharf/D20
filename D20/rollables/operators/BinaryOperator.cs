@@ -6,9 +6,16 @@ namespace D20
 {
     public abstract class BinaryOperator : Rollable
 	{
+	    protected enum Precedence
+	    {
+	        Sum,
+	        Product,
+	    }
+
 		protected abstract int Apply(int left, int right);
 		protected abstract double Apply(double left, double right);
 		protected abstract string Symbol { get; }
+	    protected  abstract Precedence OperatorPrecedence { get; }
 
 		protected Rollable Left { get; }
 		protected Rollable Right { get; }
@@ -31,7 +38,22 @@ namespace D20
 
 		public override int Roll() => this.Apply(this.Left.Roll(), this.Right.Roll());
 
-		public override string ToString() => $"{this.Left}{this.Symbol}{this.Right}";
+	    public override string ToString()
+	    {
+	        var leftOperator = this.Left as BinaryOperator;
+	        var rightOperator = this.Right as BinaryOperator;
+
+	        var leftParenthesis = leftOperator?.OperatorPrecedence < this.OperatorPrecedence;
+	        var rightParenthesis = rightOperator?.OperatorPrecedence < this.OperatorPrecedence;
+
+	        if (leftParenthesis && rightParenthesis)
+	            return $"({this.Left}){this.Symbol}({this.Right})";
+	        if (leftParenthesis)
+	            return $"({this.Left}){this.Symbol}{this.Right}";
+	        if (rightParenthesis)
+	            return $"{this.Left}{this.Symbol}({this.Right})";
+	        return $"{this.Left}{this.Symbol}{this.Right}";
+	    }
 
 	    public static IEnumerable<int> JoinPossibleValues(
 	            IEnumerable<int> left, IEnumerable<int> right, Func<int, int, int> @operator)
