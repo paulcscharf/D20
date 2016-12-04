@@ -8,8 +8,8 @@ namespace D20
 	    public Difference(Rollable left, Rollable right)
 			: base (left, right) { }
 
-		protected override int Apply(int l, int r) => l * r;
-		protected override double Apply(double l, double r)	=> l * r;
+		protected override int Apply(int l, int r) => l - r;
+		protected override double Apply(double l, double r)	=> l - r;
 		protected override string Symbol => "-";
 
 		public override int MinValue => this.Left.MinValue - this.Right.MaxValue;
