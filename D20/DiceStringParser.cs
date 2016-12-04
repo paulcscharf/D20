@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace D20
 {
@@ -9,6 +10,9 @@ namespace D20
 			Unknown,
 			DiceSymbol,
 			Digit,
+		    SumSymbol,
+		    DifferenceSymbol,
+		    ProductSymbol,
 		    EndOfString,
 		}
 
@@ -69,16 +73,59 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 			return true;
 		}
 
+	    private static readonly Dictionary<char, CharacterType> characters = new Dictionary<char, CharacterType>
+	    {
+	        { 'd', CharacterType.DiceSymbol },
+	        { '+', CharacterType.SumSymbol },
+	        { '-', CharacterType.DifferenceSymbol },
+	        { '*', CharacterType.ProductSymbol },
+	    };
+
 		private static CharacterType typeOfChar(char c)
 		{
-			if (c == 'd')
-				return CharacterType.DiceSymbol;
-			if (c >= '0' && c <= '9')
-				return CharacterType.Digit;
-			return CharacterType.Unknown;
+		    if (c >= '0' && c <= '9')
+		        return CharacterType.Digit;
+		    CharacterType type;
+		    return characters.TryGetValue(c, out type) ? type : CharacterType.Unknown;
 		}
 
-		private Rollable readRollable()
+	    private Rollable readRollable()
+	    {
+	        return readSum();
+	    }
+
+	    private Rollable readSum()
+	    {
+	        var sum = readProduct();
+	        while (!this.endOfString)
+	        {
+	            if (this.currentType == CharacterType.SumSymbol)
+	            {
+	                this.moveNext();
+	                sum += readProduct();
+	            }
+	            else if (this.currentType == CharacterType.DifferenceSymbol)
+	            {
+	                this.moveNext();
+	                sum -= readProduct();
+	            }
+	            else break;
+	        }
+	        return sum;
+	    }
+
+	    private Rollable readProduct()
+	    {
+	        var product = readRollableUnit();
+	        while (!this.endOfString && this.currentType == CharacterType.ProductSymbol)
+	        {
+                this.moveNext();
+                product *= this.readRollableUnit();
+	        }
+	        return product;
+	    }
+
+		private Rollable readRollableUnit()
 		{
 			switch (this.currentType)
 			{
