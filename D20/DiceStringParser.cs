@@ -161,6 +161,8 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 
 		private int readInt()
 		{
+		    if (this.currentType != CharacterType.Digit)
+		        throw expected($"digit, found '{this.current}'");
 		    var sum = this.currentAsDigit;
 			while (this.moveNext() && this.currentType == CharacterType.Digit)
 			{
