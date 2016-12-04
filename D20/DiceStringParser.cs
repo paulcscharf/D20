@@ -13,6 +13,8 @@ namespace D20
 		    SumSymbol,
 		    DifferenceSymbol,
 		    ProductSymbol,
+		    OpenParenthesis,
+		    CloseParenthesis,
 		    EndOfString,
 		}
 
@@ -79,6 +81,8 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 	        { '+', CharacterType.SumSymbol },
 	        { '-', CharacterType.DifferenceSymbol },
 	        { '*', CharacterType.ProductSymbol },
+	        { '(', CharacterType.OpenParenthesis },
+	        { ')', CharacterType.CloseParenthesis },
 	    };
 
 		private static CharacterType typeOfChar(char c)
@@ -133,12 +137,24 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 					return this.readDie();
 				case CharacterType.Digit:
 					return this.readDiceOrConstant();
+			    case CharacterType.OpenParenthesis:
+			        return this.readParenthesized();
 			    default:
-                    throw expected($"digit or 'd', found '{this.current}'");
+                    throw expected($"digit, 'd' or open paranthesis, found '{this.current}'");
 			}
 		}
 
-		private Rollable readDiceOrConstant()
+	    private Rollable readParenthesized()
+	    {
+	        this.moveNext();
+	        var rollable = this.readRollable();
+	        if (this.currentType != CharacterType.CloseParenthesis)
+	            throw expected($"close parenthesis, found '{this.current}'");
+	        this.moveNext();
+	        return rollable;
+	    }
+
+	    private Rollable readDiceOrConstant()
 		{
 			var c = this.readInt();
 			if (this.endOfString || this.currentType != CharacterType.DiceSymbol)
