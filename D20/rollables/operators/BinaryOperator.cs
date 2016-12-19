@@ -22,7 +22,11 @@ namespace D20
 
 		protected BinaryOperator(Rollable left, Rollable right)
 		{
-			this.Left = left;
+		    if (left == null)
+		        throw new ArgumentNullException(nameof(left));
+		    if (right == null)
+		        throw new ArgumentNullException(nameof(right));
+		    this.Left = left;
 			this.Right = right;
 		}
 
