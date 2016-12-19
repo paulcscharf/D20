@@ -40,10 +40,12 @@
     <Compile Include="rollables\Constant.cs" />
     <Compile Include="rollables\Dice.cs" />
     <Compile Include="rollables\Die.cs" />
+    <Compile Include="rollables\Extensions.cs" />
     <Compile Include="rollables\operators\BinaryOperator.cs" />
     <Compile Include="rollables\operators\Difference.cs" />
     <Compile Include="rollables\operators\Product.cs" />
     <Compile Include="rollables\operators\Sum.cs" />
+    <Compile Include="rollables\Statics.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="D20.csproj" />
