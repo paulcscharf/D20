@@ -21,7 +21,12 @@ namespace D20
 
 		public Dice(int count, int value)
 		{
-			this.count = count;
+		    if (count < 1)
+		        throw new ArgumentException("Must be equal or larger than 1.", nameof(count));
+		    if (value < 1)
+		        throw new ArgumentException("Must be equal or larger than 1.", nameof(value));
+
+		    this.count = count;
 			this.value = value;
 		}
 

@@ -20,6 +20,9 @@ namespace D20
 
 		public Die(int value)
 		{
+		    if (value < 1)
+		        throw new ArgumentException("Must be equal or larger than 1.", nameof(value));
+
 			this.value = value;    
 		}
 
