@@ -14,8 +14,8 @@ namespace D20
 		public static Dice D12(int count) => new Dice(count, 12);
 		public static Dice D20(int count) => new Dice(count, 20);
 
-		private int Count { get; }
-		private int Value { get; }
+		public int Count { get; }
+		public int Value { get; }
 	    private readonly IRandom random;
 
 		public Dice(int count, int value, IRandom random = null)
