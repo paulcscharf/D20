@@ -10,13 +10,13 @@
         public static Die D12 => Die.D12;
         public static Die D20 => Die.D20;
 
-        public static Dice D2s(int count) => new Dice(count, 2);
-        public static Dice D4s(int count) => new Dice(count, 4);
-        public static Dice D6s(int count) => new Dice(count, 6);
-        public static Dice D8s(int count) => new Dice(count, 8);
-        public static Dice D10s(int count) => new Dice(count, 10);
-        public static Dice D12s(int count) => new Dice(count, 12);
-        public static Dice D20s(int count) => new Dice(count, 20);
+        public static Dice D2s(int count) => Dice.D2(count);
+        public static Dice D4s(int count) => Dice.D4(count);
+        public static Dice D6s(int count) => Dice.D6(count);
+        public static Dice D8s(int count) => Dice.D8(count);
+        public static Dice D10s(int count) => Dice.D10(count);
+        public static Dice D12s(int count) => Dice.D12(count);
+        public static Dice D20s(int count) => Dice.D20(count);
 
     }
 }
