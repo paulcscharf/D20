@@ -17,8 +17,8 @@ namespace D20
 		protected abstract string Symbol { get; }
 	    protected  abstract Precedence OperatorPrecedence { get; }
 
-		protected Rollable Left { get; }
-		protected Rollable Right { get; }
+		public Rollable Left { get; }
+		public Rollable Right { get; }
 
 		protected BinaryOperator(Rollable left, Rollable right)
 		{
