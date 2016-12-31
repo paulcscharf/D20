@@ -15,7 +15,7 @@ namespace D20
 		protected abstract int Apply(int left, int right);
 		protected abstract double Apply(double left, double right);
 		protected abstract string Symbol { get; }
-	    protected  abstract Precedence OperatorPrecedence { get; }
+	    protected abstract Precedence OperatorPrecedence { get; }
 
 		public Rollable Left { get; }
 		public Rollable Right { get; }
