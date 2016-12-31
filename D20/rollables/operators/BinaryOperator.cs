@@ -67,5 +67,10 @@ namespace D20
 	            IEnumerable<CountedValue> left, IEnumerable<CountedValue> right, Func<int, int, int> @operator)
 	        => left.Join(right, (l, r) => new CountedValue(@operator(l.Value, r.Value), l.Count * r.Count))
 	            .GroupBy(x => x.Value).Select(CountedValue.FromGroup);
+
+	    public override Rollable With(IRandom random)
+	        => this.With(this.Left.With(random), this.Right.With(random));
+
+	    public abstract Rollable With(Rollable left, Rollable right);
 	}
 }

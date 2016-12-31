@@ -6,8 +6,6 @@ namespace D20
 {
     public sealed class Dice : Rollable
 	{
-		private static readonly Random random = new Random();
-
 		public static Dice D2(int count) => new Dice(count, 2);
 		public static Dice D4(int count) => new Dice(count, 4);
 		public static Dice D6(int count) => new Dice(count, 6);
@@ -18,8 +16,9 @@ namespace D20
 
 		private readonly int count;
 		private readonly int value;
+	    private readonly IRandom random;
 
-		public Dice(int count, int value)
+		public Dice(int count, int value, IRandom random = null)
 		{
 		    if (count < 1)
 		        throw new ArgumentException("Must be equal or larger than 1.", nameof(count));
@@ -28,6 +27,7 @@ namespace D20
 
 		    this.count = count;
 			this.value = value;
+		    this.random = random ?? Rollable.DefaultRandom;
 		}
 
 		public override int MinValue => this.count;
@@ -51,8 +51,11 @@ namespace D20
 		}
 
         public override int Roll() =>
-            this.count + this.count.Times(() => Dice.random.Next(this.value)).Sum();
+            this.count + this.count.Times(() => this.random.Next(1, this.value + 1)).Sum();
 
-		public override string ToString() => $"{this.count}d{this.value}";
+	    public override Rollable With(IRandom random)
+	        => new Dice(this.count, this.value, random);
+
+	    public override string ToString() => $"{this.count}d{this.value}";
 	}
 }

@@ -15,5 +15,8 @@ namespace D20
 
 		public override int MinValue => this.Left.MinValue - this.Right.MaxValue;
 		public override int MaxValue => this.Left.MaxValue - this.Right.MinValue;
+
+	    public override Rollable With(Rollable left, Rollable right)
+	        => new Difference(left, right);
 	}
 }

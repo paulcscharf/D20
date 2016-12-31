@@ -6,8 +6,6 @@ namespace D20
 {
     public sealed class Die : Rollable
 	{
-		private static readonly Random random = new Random();
-
 		public static readonly Die D2 = new Die(2);
 		public static readonly Die D4 = new Die(4);
 		public static readonly Die D6 = new Die(6);
@@ -17,14 +15,16 @@ namespace D20
 		public static readonly Die D20 = new Die(20);
 
 		private readonly int value;
+	    private readonly IRandom random;
 
-		public Die(int value)
-		{
-		    if (value < 1)
-		        throw new ArgumentException("Must be equal or larger than 1.", nameof(value));
+	    public Die(int value, IRandom random = null)
+	    {
+	        if (value < 1)
+	            throw new ArgumentException("Must be equal or larger than 1.", nameof(value));
 
-			this.value = value;    
-		}
+	        this.value = value;
+	        this.random = random ?? Rollable.DefaultRandom;
+	    }
 
         public override int MinValue => 1;
         public override int MaxValue => this.value;
@@ -32,8 +32,10 @@ namespace D20
 		public override IEnumerable<int> PossibleValues => Enumerable.Range(1, this.value);
 		public override IEnumerable<CountedValue> CountedValues => this.PossibleValues.Select(CountedValue.Single);
 
-		public override int Roll() => 1 + Die.random.Next(this.value);
+		public override int Roll() => this.random.Next(1, this.value + 1);
 
-        public override string ToString() => $"d{this.value}";
+	    public override Rollable With(IRandom random) => new Die(this.value, random);
+
+	    public override string ToString() => $"d{this.value}";
 	}
 }

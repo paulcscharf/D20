@@ -19,6 +19,8 @@ namespace D20
 
 		public override int Roll() => this.value;
 
-		public override string ToString() => this.value.ToString();
+	    public override Rollable With(IRandom random) => this;
+
+	    public override string ToString() => this.value.ToString();
 	}
 }

@@ -12,5 +12,8 @@ namespace D20
 		protected override double Apply(double l, double r)	=> l * r;
 		protected override string Symbol => "*";
 	    protected override Precedence OperatorPrecedence => Precedence.Product;
+
+	    public override Rollable With(Rollable left, Rollable right)
+	        => new Product(left, right);
 	}
 }
