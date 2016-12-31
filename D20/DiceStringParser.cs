@@ -18,9 +18,12 @@ namespace D20
 		    EndOfString,
 		}
 
-		public static Rollable Parse(string dice) => new DiceStringParser(dice).Parse();
+		public static Rollable Parse(string dice, IRandom random = null)
+		    => new DiceStringParser(dice, random).Parse();
 		
 		private readonly string input;
+	    private readonly IRandom random;
+
 		private int characterIndex = -1;
 		private CharacterType currentType = CharacterType.Unknown;
 
@@ -28,11 +31,12 @@ namespace D20
 	    private int currentAsDigit => this.current - '0';
 	    private bool endOfString => this.characterIndex >= this.input.Length;
 
-	    private DiceStringParser(string input)
+	    private DiceStringParser(string input, IRandom random)
 		{
 			if (string.IsNullOrWhiteSpace(input))
                 throw new ArgumentException("Must be non-empty string.", nameof(input));
 			this.input = input.Trim().ToLower();
+		    this.random = random;
 		}
 
 		public Rollable Parse()
@@ -165,8 +169,8 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 			if (c == 0 || d <= 1)
 				return new Constant(c);
 			if (c == 1)
-				return new Die(d);
-			return new Dice(c, d);
+				return new Die(d, this.random);
+			return new Dice(c, d, this.random);
 		}
 
 		private Rollable readDie()
