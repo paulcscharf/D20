@@ -14,8 +14,8 @@ namespace D20
 		public static Dice D12(int count) => new Dice(count, 12);
 		public static Dice D20(int count) => new Dice(count, 20);
 
-		private readonly int count;
-		private readonly int value;
+		private int Count { get; }
+		private int Value { get; }
 	    private readonly IRandom random;
 
 		public Dice(int count, int value, IRandom random = null)
@@ -25,22 +25,22 @@ namespace D20
 		    if (value < 1)
 		        throw new ArgumentException("Must be equal or larger than 1.", nameof(value));
 
-		    this.count = count;
-			this.value = value;
+		    this.Count = count;
+			this.Value = value;
 		    this.random = random ?? Rollable.DefaultRandom;
 		}
 
-		public override int MinValue => this.count;
-		public override int MaxValue => this.count * this.value;
-		public override double Average => this.count * (this.value + 1) * 0.5;
+		public override int MinValue => this.Count;
+		public override int MaxValue => this.Count * this.Value;
+		public override double Average => this.Count * (this.Value + 1) * 0.5;
 		public override IEnumerable<int> PossibleValues => Enumerable.Range(this.MinValue, this.MaxValue - this.MinValue + 1);
 		public override IEnumerable<CountedValue> CountedValues
 		{
 			get
 			{
-				var range = Enumerable.Range(1, this.value);
+				var range = Enumerable.Range(1, this.Value);
 				var all = range;
-				for (int i = 1; i < this.count; i++)
+				for (int i = 1; i < this.Count; i++)
 				{
 					all = all.Join(range, (l, r) => l + r);
 				}
@@ -51,11 +51,11 @@ namespace D20
 		}
 
         public override int Roll() =>
-            this.count + this.count.Times(() => this.random.Next(1, this.value + 1)).Sum();
+            this.Count + this.Count.Times(() => this.random.Next(1, this.Value + 1)).Sum();
 
 	    public override Rollable With(IRandom random)
-	        => new Dice(this.count, this.value, random);
+	        => new Dice(this.Count, this.Value, random);
 
-	    public override string ToString() => $"{this.count}d{this.value}";
+	    public override string ToString() => $"{this.Count}d{this.Value}";
 	}
 }

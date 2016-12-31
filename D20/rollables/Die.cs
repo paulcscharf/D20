@@ -14,7 +14,7 @@ namespace D20
 		public static readonly Die D12 = new Die(12);
 		public static readonly Die D20 = new Die(20);
 
-		private readonly int value;
+		public int Value { get; }
 	    private readonly IRandom random;
 
 	    public Die(int value, IRandom random = null)
@@ -22,20 +22,20 @@ namespace D20
 	        if (value < 1)
 	            throw new ArgumentException("Must be equal or larger than 1.", nameof(value));
 
-	        this.value = value;
+	        this.Value = value;
 	        this.random = random ?? Rollable.DefaultRandom;
 	    }
 
         public override int MinValue => 1;
-        public override int MaxValue => this.value;
-		public override double Average => (this.value + 1) * 0.5;
-		public override IEnumerable<int> PossibleValues => Enumerable.Range(1, this.value);
+        public override int MaxValue => this.Value;
+		public override double Average => (this.Value + 1) * 0.5;
+		public override IEnumerable<int> PossibleValues => Enumerable.Range(1, this.Value);
 		public override IEnumerable<CountedValue> CountedValues => this.PossibleValues.Select(CountedValue.Single);
 
-		public override int Roll() => this.random.Next(1, this.value + 1);
+		public override int Roll() => this.random.Next(1, this.Value + 1);
 
-	    public override Rollable With(IRandom random) => new Die(this.value, random);
+	    public override Rollable With(IRandom random) => new Die(this.Value, random);
 
-	    public override string ToString() => $"d{this.value}";
+	    public override string ToString() => $"d{this.Value}";
 	}
 }
