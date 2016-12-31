@@ -19,7 +19,7 @@ namespace D20
 		}
 
 		public static Rollable Parse(string dice, IRandom random = null)
-		    => new DiceStringParser(dice, random).Parse();
+		    => new DiceStringParser(dice, random).parse();
 		
 		private readonly string input;
 	    private readonly IRandom random;
@@ -39,7 +39,7 @@ namespace D20
 		    this.random = random;
 		}
 
-		public Rollable Parse()
+		private Rollable parse()
 		{
 			try
 			{
