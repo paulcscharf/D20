@@ -31,6 +31,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRandom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CountedValue.cs" />
     <Compile Include="DiceHelpers.cs" />
@@ -46,6 +47,8 @@
     <Compile Include="rollables\operators\Sum.cs" />
     <Compile Include="rollables\Rollable.cs" />
     <Compile Include="rollables\Statics.cs" />
+    <Compile Include="SimpleRandomAdapter.cs" />
+    <Compile Include="ThreadSafeRandom.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="D20.csproj" />
