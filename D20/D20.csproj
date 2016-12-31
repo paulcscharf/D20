@@ -36,7 +36,6 @@
     <Compile Include="DiceHelpers.cs" />
     <Compile Include="DiceStringParser.cs" />
     <Compile Include="DiceStringParserExtensions.cs" />
-    <Compile Include="Rollable.cs" />
     <Compile Include="rollables\Constant.cs" />
     <Compile Include="rollables\Dice.cs" />
     <Compile Include="rollables\Die.cs" />
@@ -45,6 +44,7 @@
     <Compile Include="rollables\operators\Difference.cs" />
     <Compile Include="rollables\operators\Product.cs" />
     <Compile Include="rollables\operators\Sum.cs" />
+    <Compile Include="rollables\Rollable.cs" />
     <Compile Include="rollables\Statics.cs" />
   </ItemGroup>
   <ItemGroup>
