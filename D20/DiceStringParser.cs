@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace D20
 {
@@ -18,7 +19,20 @@ namespace D20
 		    EndOfString,
 		}
 
-		public static Rollable Parse(string dice, IRandom random = null)
+	    private static readonly Dictionary<CharacterType, char> characters = new Dictionary<CharacterType, char>
+	    {
+	        { CharacterType.DiceSymbol, 'd' },
+	        { CharacterType.SumSymbol, '+' },
+	        { CharacterType.DifferenceSymbol, '-' },
+	        { CharacterType.ProductSymbol, '*' },
+	        { CharacterType.OpenParenthesis, '(' },
+	        { CharacterType.CloseParenthesis, ')' },
+	    };
+
+	    private static readonly Dictionary<char, CharacterType> characterTypes
+	        = characters.ToDictionary(p => p.Value, p => p.Key);
+
+	    public static Rollable Parse(string dice, IRandom random = null)
 		    => new DiceStringParser(dice, random).parse();
 		
 		private readonly string input;
@@ -67,6 +81,16 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 
         private static Exception expected(string expectedString) => new Exception($"Expected {expectedString}");
 
+	    private void read(CharacterType characterType)
+	    {
+	        var character = characters[characterType];
+	        if (this.endOfString)
+	            throw expected($"'{character}', found end of string");
+	        if (this.currentType != characterType)
+	            throw expected($"'{character}', found '{this.current}'");
+	        this.moveNext();
+	    }
+
 		private bool moveNext()
 		{
 			this.characterIndex++;
@@ -79,22 +103,12 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 			return true;
 		}
 
-	    private static readonly Dictionary<char, CharacterType> characters = new Dictionary<char, CharacterType>
-	    {
-	        { 'd', CharacterType.DiceSymbol },
-	        { '+', CharacterType.SumSymbol },
-	        { '-', CharacterType.DifferenceSymbol },
-	        { '*', CharacterType.ProductSymbol },
-	        { '(', CharacterType.OpenParenthesis },
-	        { ')', CharacterType.CloseParenthesis },
-	    };
-
 		private static CharacterType typeOfChar(char c)
 		{
 		    if (c >= '0' && c <= '9')
 		        return CharacterType.Digit;
 		    CharacterType type;
-		    return characters.TryGetValue(c, out type) ? type : CharacterType.Unknown;
+		    return characterTypes.TryGetValue(c, out type) ? type : CharacterType.Unknown;
 		}
 
 	    private Rollable readRollable()
@@ -143,18 +157,18 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 					return this.readDiceOrConstant();
 			    case CharacterType.OpenParenthesis:
 			        return this.readParenthesized();
+			    case CharacterType.EndOfString:
+			        throw expected($"expression, found end of string");
 			    default:
-                    throw expected($"digit, 'd' or open paranthesis, found '{this.current}'");
+                    throw expected($"expression, found '{this.current}'");
 			}
 		}
 
 	    private Rollable readParenthesized()
 	    {
-	        this.moveNext();
+	        this.read(CharacterType.OpenParenthesis);
 	        var rollable = this.readRollable();
-	        if (this.currentType != CharacterType.CloseParenthesis)
-	            throw expected($"close parenthesis, found '{this.current}'");
-	        this.moveNext();
+	        this.read(CharacterType.CloseParenthesis);
 	        return rollable;
 	    }
 
@@ -164,7 +178,7 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 			if (this.endOfString || this.currentType != CharacterType.DiceSymbol)
 				return new Constant(c);
 
-			this.moveNext();
+		    this.read(CharacterType.DiceSymbol);
 			var d = this.readInt();
 			if (c == 0 || d <= 1)
 				return new Constant(c);
@@ -175,21 +189,43 @@ $@"Syntax error parsing dice string at :{this.characterIndex}
 
 		private Rollable readDie()
 		{
-			this.moveNext();
+			this.read(CharacterType.DiceSymbol);
 			return new Die(this.readInt());
 		}
 
 		private int readInt()
 		{
-		    if (this.currentType != CharacterType.Digit)
-		        throw expected($"digit, found '{this.current}'");
-		    var sum = this.currentAsDigit;
-			while (this.moveNext() && this.currentType == CharacterType.Digit)
-			{
-				sum = sum * 10 + this.currentAsDigit;
-			}
-			return sum;
+		    var sum = this.readDigit();
+		    int digit;
+		    while (this.tryReadDigit(out digit))
+		    {
+		        sum = sum * 10 + digit;
+		    }
+		    return sum;
 		}
+
+	    private int readDigit()
+	    {
+	        if (this.endOfString)
+	            throw expected($"digit, found end of string");
+	        if (this.currentType != CharacterType.Digit)
+	            throw expected($"digit, found '{this.current}'");
+
+	        var i = this.currentAsDigit;
+	        this.moveNext();
+	        return i;
+	    }
+
+	    private bool tryReadDigit(out int digit)
+	    {
+	        digit = 0;
+	        if (this.currentType != CharacterType.Digit)
+	            return false;
+
+	        digit = this.currentAsDigit;
+	        this.moveNext();
+	        return true;
+	    }
 
 	}
 }
