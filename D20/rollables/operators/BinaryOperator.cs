@@ -42,23 +42,6 @@ namespace D20
 
 		public override int Roll() => this.Apply(this.Left.Roll(), this.Right.Roll());
 
-	    public override string ToString()
-	    {
-	        var leftOperator = this.Left as BinaryOperator;
-	        var rightOperator = this.Right as BinaryOperator;
-
-	        var leftParenthesis = leftOperator?.OperatorPrecedence < this.OperatorPrecedence;
-	        var rightParenthesis = rightOperator?.OperatorPrecedence < this.OperatorPrecedence;
-
-	        if (leftParenthesis && rightParenthesis)
-	            return $"({this.Left}){this.Symbol}({this.Right})";
-	        if (leftParenthesis)
-	            return $"({this.Left}){this.Symbol}{this.Right}";
-	        if (rightParenthesis)
-	            return $"{this.Left}{this.Symbol}({this.Right})";
-	        return $"{this.Left}{this.Symbol}{this.Right}";
-	    }
-
 	    public static IEnumerable<int> JoinPossibleValues(
 	            IEnumerable<int> left, IEnumerable<int> right, Func<int, int, int> @operator)
 	        => left.Join(right, @operator).Distinct();
@@ -72,5 +55,23 @@ namespace D20
 	        => this.With(this.Left.With(random), this.Right.With(random));
 
 	    public abstract Rollable With(Rollable left, Rollable right);
+	    
+	    public override string ToString()
+	    {
+	        var leftParenthesis = this.needsParenthesis(this.Left);
+	        var rightParenthesis = this.needsParenthesis(this.Right);
+
+	        if (leftParenthesis && rightParenthesis)
+	            return $"({this.Left}){this.Symbol}({this.Right})";
+	        if (leftParenthesis)
+	            return $"({this.Left}){this.Symbol}{this.Right}";
+	        if (rightParenthesis)
+	            return $"{this.Left}{this.Symbol}({this.Right})";
+	        return $"{this.Left}{this.Symbol}{this.Right}";
+	    }
+
+	    private bool needsParenthesis(Rollable child)
+	        => (child as BinaryOperator)?.OperatorPrecedence < this.OperatorPrecedence;
+
 	}
 }
