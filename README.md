@@ -1,6 +1,15 @@
 # D20
 
-Just a small C# library for rolling dice.
+Just a small C# application / library for rolling dice.
+
+## Usage
+
+To use the application, run something like `./D20Roller 2d20+5`, which will give
+```
+parsed string as: 2d20+5
+values: 7 to 45 (average: 26)
+example rolls: 21, 25, 35, 22, 20, 44, 33, 34, 20, 30
+```
 
 ## Contribute
 
@@ -18,13 +27,17 @@ Just a small C# library for rolling dice.
     - :fire: `:fire:` - Removing code
     - :sparkles: `:sparkles:` - Adding a new feature
     - :construction: `:construction:` - Work in Progress
-    - :racehorse: `:racehorse:` Improving performance
+    - :racehorse: `:racehorse:` - Improving performance
     - :lipstick: `:lipstick:` - Cosmetic changes to code style
     - :game_die: `:game_die:` - Changes to randomisation and rolling algorithms
 
 ### Pull Request Etiquette
 
 Make pull requests for specific concerns and use clear titles and descriptions. It is your responsibility to make sure the branch is up to date with master or merges trivially. Feel free to make pull requests for work in progress features to ask for feedback.
+
+### Setup
+
+Install the dotnet 6 SDK and run `dotnet build --configuration Release`.
 
 ## License
 

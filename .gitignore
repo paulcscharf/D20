@@ -39,4 +39,7 @@ Thumbs.db
 #dotCover
 *.dotCover
 
+# Vim swap files
+*.swp
+
 .idea/
